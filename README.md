@@ -7,7 +7,7 @@
 
   <p>
     <a href="#"><img src="https://img.shields.io/badge/Paper-coming_soon-blue?style=for-the-badge" alt="Paper"></a>
-    <a href="https://XCYu-0903.github.io/QSep-RL-demo/"><img src="https://img.shields.io/badge/Demo-coming_soon-green?style=for-the-badge" alt="Demo"></a>
+    <a href="https://XCYu-0903.github.io/QSep-RL-demo/"><img src="https://img.shields.io/badge/Demo-online-green?style=for-the-badge" alt="Demo"></a>
     <a href="https://github.com/XCYu-0903/QSep-RL"><img src="https://img.shields.io/badge/Code-QSep--RL-orange?style=for-the-badge" alt="Code"></a>
   </p>
 </div>
