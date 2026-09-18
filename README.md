@@ -21,12 +21,12 @@
 
 ## Structure
 
-- `train_qseprl.py`: (will be released soon) training entry. It supports training from scratch and resuming from split checkpoints.
-- `model/QSepRL.py`: (will be released soon) QSep-RL model.
-- `model/CLAPSep_decoder.py`: (will be released soon) decoder / mask network.
+- `train_qseprl.py` (will be released soon): training entry. It supports training from scratch and resuming from split checkpoints.
+- `model/QSepRL.py` (will be released soon): QSep-RL model.
+- `model/CLAPSep_decoder.py` (will be released soon): decoder / mask network.
 - `data_utils/`: AudioCaps mixture dataset utilities.
 - `scripts/prepare_audiocaps_json.py`: converts AudioCaps metadata and local audio paths into JSON files used by training.
-- `experiments/QSep-RL/config.json`: default config template.
+- `experiments/QSep-RL/config.json` (will be released soon): default config template.
 
 ## Prepare AudioCaps JSON
 
