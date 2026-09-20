@@ -27,7 +27,7 @@
 - <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `best.pt`: Released checkpoint.
 - <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `inference.py`: Extracting target sound through given queries.
 - <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="released"> `data_utils/`: AudioCaps mixture dataset utilities.
-- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="released"> `scripts/prepare_audiocaps_json.py`: Converts AudioCaps metadata and local audio paths into JSON files used by training.
+- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="released"> `scripts/prepare_audiocaps_json.py`: Converting AudioCaps metadata and local audio paths into JSON files used by training.
 
 ## Prepare AudioCaps JSON
 
