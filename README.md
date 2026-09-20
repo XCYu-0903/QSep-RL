@@ -26,8 +26,8 @@
 - <img src="assets/not_released.svg" width="16" height="16" alt="not released"> `model/`: QSep-RL model.
 - <img src="assets/not_released.svg" width="16" height="16" alt="not released"> `best.pt`: released checkpoint.
 - <img src="assets/not_released.svg" width="16" height="16" alt="not released"> `inference.py`: text-query sound extraction entry.
-- ✅ `data_utils/`: AudioCaps mixture dataset utilities.
-- ✅ `scripts/prepare_audiocaps_json.py`: converts AudioCaps metadata and local audio paths into JSON files used by training.
+- <img src="assets/released.svg" width="16" height="16" alt="released"> `data_utils/`: AudioCaps mixture dataset utilities.
+- <img src="assets/released.svg" width="16" height="16" alt="released"> `scripts/prepare_audiocaps_json.py`: converts AudioCaps metadata and local audio paths into JSON files used by training.
 
 ## Prepare AudioCaps JSON
 
