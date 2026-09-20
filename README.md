@@ -21,12 +21,13 @@
 
 ## Structure
 
-- `train_qseprl.py` (will be released soon): training entry. It supports training from scratch and resuming from split checkpoints.
-- `model/QSepRL.py` (will be released soon): QSep-RL model.
-- `model/CLAPSep_decoder.py` (will be released soon): decoder / mask network.
-- `data_utils/`: AudioCaps mixture dataset utilities.
-- `scripts/prepare_audiocaps_json.py`: converts AudioCaps metadata and local audio paths into JSON files used by training.
-- `experiments/QSep-RL/config.json` (will be released soon): default config template.
+- ![will be released soon](https://img.shields.io/badge/%E2%98%90-will_be_released_soon-lightgrey?style=flat-square) `train_qseprl.py`: training entry. It supports training from scratch and resuming from split checkpoints.
+- ![not released](https://img.shields.io/badge/%E2%98%90-will_be_released_soon-lightgrey?style=flat-square) `config.json`: default config template.
+- ![not released](https://img.shields.io/badge/%E2%98%90-will_be_released_soon-lightgrey?style=flat-square) `model/`: QSep-RL model.
+- ![not released](https://img.shields.io/badge/%E2%98%90-will_be_released_soon-lightgrey?style=flat-square) `best.pt`: released checkpoint.
+- ![not released](https://img.shields.io/badge/%E2%98%90-will_be_released_soon-lightgrey?style=flat-square) `inference.py`: text-query sound extraction entry.
+- ![released](https://img.shields.io/badge/%E2%98%91-already_released-brightgreen?style=flat-square) `data_utils/`: AudioCaps mixture dataset utilities.
+- ![released](https://img.shields.io/badge/%E2%98%91-already_released-brightgreen?style=flat-square) `scripts/prepare_audiocaps_json.py`: converts AudioCaps metadata and local audio paths into JSON files used by training.
 
 ## Prepare AudioCaps JSON
 
