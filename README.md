@@ -8,7 +8,8 @@
   <p>
     <a href="#"><img src="https://img.shields.io/badge/Paper-coming_soon-blue?style=for-the-badge" alt="Paper"></a>
     <a href="https://XCYu-0903.github.io/QSep-RL-demo/"><img src="https://img.shields.io/badge/Demo-online-green?style=for-the-badge" alt="Demo"></a>
-    <a href="https://github.com/XCYu-0903/QSep-RL"><img src="https://img.shields.io/badge/Code-QSep--RL-orange?style=for-the-badge" alt="Code"></a>
+    <a href="https://github.com/XCYu-0903/QSep-RL"><img src="https://img.shields.io/badge/Code-QSep--RL-B19CD9?style=for-the-badge" alt="Code"></a>
+    <a href="https://huggingface.co/Ediethia/QSep-RL/tree/main"><img src="https://img.shields.io/badge/Weights-HuggingFace-orange?style=for-the-badge" alt="Weights"></a>
   </p>
 </div>
 
@@ -22,12 +23,17 @@
 ## Structure
 
 - <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `train_qseprl.py`: Training entry. It supports training from scratch and resuming from split checkpoints.
-- <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `config.json`: Default config template.
-- <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `model/`: QSep-RL model.
-- <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `best.pt`: Released checkpoint.
-- <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `inference.py`: Extracting target sound through given queries.
+- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="not released"> `config.json`: Default config template.
+- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="not released"> `model/QSepRL_backbone`: QSep-RL backbone (w/o RL), which supports inference applications.
+- <img src="assets/not_released.svg" width="16" height="16" align="absmiddle" alt="not released"> `model/QSepRL`: QSep-RL with RL, which will be made available concurrently with the release of `train_qseprl.py`.
+- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="not released"> `best.pt`: Released checkpoint.
+- <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="not released"> `inference.py`: Extracting target sound through given queries.
 - <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="released"> `data_utils/`: AudioCaps mixture dataset utilities.
 - <img src="assets/released.svg" width="16" height="16" align="absmiddle" alt="released"> `scripts/prepare_audiocaps_json.py`: Converting AudioCaps metadata and local audio paths into JSON files used by training.
+
+## Prerequisites
+
+QSep-RL requires Python >= 3.8. Please install the required packages according to `requirements.txt`.
 
 ## Prepare AudioCaps JSON
 
@@ -96,6 +102,27 @@ python train_qseprl.py \
 ```
 
 Edit `experiments/QSep-RL/config.json` to set `clap_path`, `input_dir`, metadata JSON paths, and ontology path for your machine.
+
+## Inference
+
+For quick inference, download the released QSep-RL checkpoint and CLAP checkpoint from [Hugging Face](https://huggingface.co/Ediethia/QSep-RL/tree/main), and place them under `cp/`.
+
+Run:
+
+```bash
+python inference.py \
+  --audio_path 'example.wav' \
+  --query 'A girl laughs while a dog letting out a lower rumble with a sharp barking and a continuous growling' \
+  --negative_query 'A man speaks to give instructions loudly' \
+  --output_path 'target.wav' \
+  --exp_dir './experiments/QSep-RL' \
+  --checkpoint_path './cp/best.pt' \
+  --clap_path './cp/music_audioset_epoch_15_esc_90.14.pt'
+```
+
+**[NOTE]** The current inference pipeline uses 10-second chunks by default. Audio longer than 10 seconds will be split into chunks and concatenated after separation. You can change the chunk duration with the `--duration` argument, or modify the inference logic to use a sliding-window strategy.
+
+
 
 ## Acknowledgements
 
