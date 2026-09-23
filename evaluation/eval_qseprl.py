@@ -56,8 +56,6 @@ def find_hf_snapshot(model_name, hf_hub_dir):
 
 
 def patch_transformers_local_loading(args):
-    if args.allow_hf_download:
-        return
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
@@ -97,20 +95,21 @@ def patch_transformers_local_loading(args):
 
 def load_checkpoint(model, checkpoint_path):
     checkpoint = torch.load(checkpoint_path, map_location="cpu")
-    if (
-        isinstance(checkpoint, dict)
-        and "model_path" in checkpoint
-        and "optim_state_dict" in checkpoint
-        and "state_dict" not in checkpoint
-        and "model_state_dict" not in checkpoint
-    ):
-        checkpoint = torch.load(checkpoint["model_path"], map_location="cpu")
     state_dict = checkpoint.get("state_dict", checkpoint) if isinstance(checkpoint, dict) else checkpoint
-    missing, unexpected = model.load_state_dict(state_dict, strict=False)
-    if missing:
-        logging.info("Checkpoint leaves %d model keys unchanged.", len(missing))
-    if unexpected:
-        logging.warning("Unexpected checkpoint keys: %d", len(unexpected))
+    if any(key.startswith("clap_model.") for key in state_dict):
+        raise ValueError(
+            f"{checkpoint_path} contains clap_model.* keys. "
+            "QSep-RL checkpoints must not include the original CLAP weights."
+        )
+    result = model.load_state_dict(state_dict, strict=False)
+    real_missing = [key for key in result.missing_keys if not key.startswith("clap_model.")]
+    real_unexpected = [key for key in result.unexpected_keys if "." in key]
+    if real_missing or real_unexpected:
+        raise RuntimeError(
+            "Failed to load QSep-RL checkpoint: "
+            f"missing non-CLAP keys={real_missing}, unexpected keys={real_unexpected}"
+        )
+    logging.info("Loaded QSep-RL model checkpoint from %s.", checkpoint_path)
 
 
 def build_model(args, device):
@@ -119,7 +118,7 @@ def build_model(args, device):
     import laion_clap
 
     from model.CLAPSep_decoder import HTSAT_Decoder
-    from model.QSepRL import QSepRL
+    from model.QSepRL_backbone import QSepRLBackbone
 
     if not os.path.exists(args.clap_path):
         raise FileNotFoundError(f"CLAP checkpoint not found: {args.clap_path}")
@@ -129,13 +128,12 @@ def build_model(args, device):
     clap_model = laion_clap.CLAP_Module(enable_fusion=False, amodel="HTSAT-base", device=str(device))
     clap_model.load_ckpt(args.clap_path, verbose=args.verbose_clap)
     decoder = HTSAT_Decoder(**args.model)
-    model = QSepRL(
+    model = QSepRLBackbone(
         clap_model,
         decoder,
         use_lora=args.lora,
         rank=args.lora_rank,
         nfft=args.nfft,
-        use_rl=False,
     )
     load_checkpoint(model, args.checkpoint_path)
     model.to(device)
@@ -376,7 +374,6 @@ if __name__ == "__main__":
     parser.add_argument("--log_interval", type=int, default=20)
     parser.add_argument("--verbose_clap", action="store_true", default=False)
     parser.add_argument("--hf_hub_dir", default=os.path.expanduser("~/.cache/huggingface/hub"))
-    parser.add_argument("--allow_hf_download", action="store_true", default=False)
     cli_args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     evaluate(cli_args)
